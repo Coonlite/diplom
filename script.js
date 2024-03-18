@@ -1,25 +1,30 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+// Устанавливаем размеры canvas.
 canvas.width = 1024;
 canvas.height = 576;
 
+// Генерируем карту столкновений.
 const collisionsMap = [];
 for (let i = 0; i < collisions.length; i += 54) {
   collisionsMap.push(collisions.slice(i, i + 54));
 }
 
+// Генерируем карту зоны битвы.
 const battleZoneMap = [];
 for (let i = 0; i < battleZoneData.length; i += 54) {
   battleZoneMap.push(battleZoneData.slice(i, i + 54));
 }
 
+// Генерируем границы с учетом смещения.
 const boundaries = [];
 const offset = {
   x: -605,
   y: -450,
 };
 
+// Создаем границы для обработки столкновений.
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 778) {
@@ -37,6 +42,7 @@ collisionsMap.forEach((row, i) => {
 
 const battleZones = [];
 
+// Создаем зоны битвы.
 battleZoneMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 680) {
@@ -52,9 +58,11 @@ battleZoneMap.forEach((row, i) => {
   });
 });
 
+// Создаем изображение карты.
 const image = new Image();
 image.src = "/img/map.png";
 
+// Загружаем изображения для персонажа в разных направлениях.
 const playerDown = new Image();
 playerDown.src = "/img/playerDown.png";
 
@@ -67,6 +75,7 @@ playerLeft.src = "/img/playerLeft.png";
 const playerRight = new Image();
 playerRight.src = "/img/playerRight.png";
 
+// Создаем спрайт игрока.
 const player = new Sprite({
   position: {
     x: canvas.width / 2 - 192 / 4 / 2,
@@ -84,6 +93,7 @@ const player = new Sprite({
   },
 });
 
+// Создаем спрайт для фона.
 const background = new Sprite({
   position: {
     x: offset.x,
@@ -92,6 +102,7 @@ const background = new Sprite({
   image: image,
 });
 
+// Объект для отслеживания нажатых клавиш.
 const keys = {
   w: { pressed: false },
   a: { pressed: false },
@@ -99,8 +110,10 @@ const keys = {
   d: { pressed: false },
 };
 
+// Массив объектов, которые можно перемещать.
 const movable = [background, ...boundaries, ...battleZones];
 
+// Функция проверки столкновения.
 function rectangularCollision({ rectangle1, rectangle2 }) {
   return (
     rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -110,10 +123,12 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
+// Объект для отслеживания начала битвы.
 const battle = {
   initiated: false,
 };
 
+// Скрытие интерфейса.
 function hideUserInterface() {
   const barDragon = document.getElementById("barDragon");
     const barEmby = document.getElementById("barEmby");
@@ -124,6 +139,7 @@ function hideUserInterface() {
     if (userIntarfase) userIntarfase.style.display = "none";
 }
 
+  // Отображение интерфейса.
 function showUserInterface() {
   const barDragon = document.getElementById("barDragon");
   const barEmby = document.getElementById("barEmby");
@@ -134,6 +150,7 @@ function showUserInterface() {
   if (userIntarfase) userIntarfase.style.display = "block";
 }
 
+// Основная анимационная функция.
 function animate() {
   mapSound.play();
   const animationID = window.requestAnimationFrame(animate);
@@ -148,6 +165,7 @@ function animate() {
 
   if (battle.initiated) return;
 
+  // Обработчики для клавиш и их отпускания.
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
       for (let i = 0; i < battleZones.length; i++) {
           const battleZone = battleZones[i];

@@ -2,23 +2,54 @@ const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
 // Устанавливаем размеры canvas.
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-////Будущие фул скрин сайз
-// function resizeCanvas() {
-//   canvas.width = window.innerWidth;
-//   canvas.height = window.innerHeight;
-// }
+function resizeCanvas() {
+  const centerX = canvas.width / 2 - 192 / 4 / 2;
+  const centerY = canvas.height / 2 - 68 / 2;
 
-// // Вызываем функцию для первоначальной настройки размеров canvas
-// resizeCanvas();
+  // Сохраняем текущие координаты игрока
+  const currentPlayerX = player.position.x;
+  const currentPlayerY = player.position.y;
 
-// // При изменении размеров окна браузера также изменяем размер canvas
-// window.addEventListener('resize', () => {
-//   resizeCanvas();
-//   // Дополнительно можно добавить код для перерисовки содержимого canvas при изменении размеров окна
-// });
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // Устанавливаем новые координаты игрока в центре canvas
+  player.position.x = canvas.width / 2 - 192 / 4 / 2;
+  player.position.y = canvas.height / 2 - 68 / 2;
+
+  // Перемещаем игрока на разницу между старым и новым центром
+  const diffX = player.position.x - centerX;
+  const diffY = player.position.y - centerY;
+
+  // Пересчитываем позиции объектов на карте с учетом смещения игрока
+  player.position.x = currentPlayerX + diffX;
+  player.position.y = currentPlayerY + diffY;
+
+
+
+  // Пересчитываем позиции границ и зон битвы соответственно
+  boundaries.forEach((boundary) => {
+    boundary.position.x += diffX;
+    boundary.position.y += diffY;
+  });
+
+  battleZones.forEach((battleZone) => {
+    battleZone.position.x += diffX;
+    battleZone.position.y += diffY;
+  });
+
+
+
+  // Пересчитываем позиции фона
+  background.position.x += diffX;
+  background.position.y += diffY;
+}
+
+// Вызовем функцию resizeCanvas() при изменении размера окна
+window.addEventListener('resize', resizeCanvas);
 
 // Генерируем карту столкновений.
 const collisionsMap = [];

@@ -81,27 +81,32 @@ class Sprite {
         // Функция уменьшение шкалы здоровья врага на экране с определённым интервалом.
         const decreaseHealth = () => {
           let decreaseAmount = 1;
-
           let interval = setInterval(() => {
             let enemyHealthBar = document.getElementById("enemyHealthBar");
             let currentWidth = parseFloat(enemyHealthBar.style.width);
             // Проверяем, что текущая ширина является числом и больше 0
             if (!isNaN(currentWidth) && currentWidth > 0) {
               currentWidth -= decreaseAmount;
-              // Проверяем, чтобы ширина не стала отрицательной
+            // Проверяем, чтобы ширина не стала отрицательной
               if (currentWidth < 0) {
                 currentWidth = 0;
               }
-              enemyHealthBar.style.width = currentWidth + "%"; //Устанавливаем новую ширину шкалы в процентах
 
-              // Проверка на 2%
+            //Устанавливаем новую ширину шкалы в процентах
+              enemyHealthBar.style.width = currentWidth + "%";
+        
               if (currentWidth <= 2) {
-                animate(); // Возврат в функцию animate()
+                animate();// Проверка на 2%
               }
             }
           }, 100);
+          
+          // Остановить уменьшение здоровья через 2 секунды
+          setTimeout(() => {
+            clearInterval(interval); // Остановка интервала
+          }, 900); 
         };
-
+        
         decreaseHealth();
 
         // Возвращение положения в бою

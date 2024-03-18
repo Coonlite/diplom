@@ -5,6 +5,21 @@ const context = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
+////Будущие фул скрин сайз
+// function resizeCanvas() {
+//   canvas.width = window.innerWidth;
+//   canvas.height = window.innerHeight;
+// }
+
+// // Вызываем функцию для первоначальной настройки размеров canvas
+// resizeCanvas();
+
+// // При изменении размеров окна браузера также изменяем размер canvas
+// window.addEventListener('resize', () => {
+//   resizeCanvas();
+//   // Дополнительно можно добавить код для перерисовки содержимого canvas при изменении размеров окна
+// });
+
 // Генерируем карту столкновений.
 const collisionsMap = [];
 for (let i = 0; i < collisions.length; i += 54) {

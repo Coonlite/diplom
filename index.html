@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <title>Game</title>
   </head>
   <body>
     <style>
@@ -36,6 +36,64 @@
         background-color: #ccc;
       }
     </style>
+    <div id="settingsModal" class="modal" style="display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 7;">
+      <div class="modal-content" style="background-color: white;
+      width: 60%;
+      max-width: 400px;
+      margin: 20% auto;
+      padding: 20px;
+      border: 2px solid black;
+      border-radius: 5px;">
+          <h2 style="margin-bottom: 20px;">Настройки игры</h2>
+          <p>Громкость музыки</p>
+          <input type="range" id="volumeControl" min="0" max="100" value="50" style="margin-top: 15px; width: 100%;
+          height: 10px;   outline: none;">
+      </div>
+  </div>
+    <div
+      id="modal"
+      class="modal"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 4;
+        display: none;
+      "
+    >
+      <div
+        class="modal-content"
+        style="
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          padding: 20px;
+          border: 1px solid black;
+          z-index: 5;
+        "
+      >
+        <h2>Добро пожаловать!
+        </h2>
+        <p style="padding: 20px;">Управление движением: </br>W - вверх </br> S - вниз </br>A - влево </br> D - вправо </br> ESC - настройки</p>
+        <button id="startButton" style="margin-top: 20px; font-size: 20px; ">Старт</button>
+      </div>
+
+    </div>
     <div style="display: inline-block; position: relative">
       <div
         id="barDragon"
@@ -102,6 +160,7 @@
         </div>
       </div>
       <canvas></canvas>
+      
       <div id="userIntarfase">
         <div
           id="characterDialogueBox"
@@ -128,9 +187,10 @@
               padding: 12px;
               display: none;
               cursor: pointer;
+
             "
           >
-            sdfsdf
+            Нам попался не простой враг, но мы справимся, что начать бой нажми ЛКМ на белое поле с письмом.
           </div>
           <div
             style="
@@ -156,7 +216,11 @@
         </div>
       </div>
     </div>
-    <script src="/data/audio.js"></script>
+    
+    <script src="/data/welcomeModal.js"></script>
+    <script src="/data/modalSetting.js"></script>
+    <script src="/data/finishModal.js"></script>
+    <script src="/data/sound.js"></script>
     <script src="/data/battleZone.js"></script>
     <script src="/data/collision.js"></script>
     <script src="/data/attack.js"></script>

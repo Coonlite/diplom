@@ -1,9 +1,11 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+
 // Устанавливаем размеры canvas.
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 
 function resizeCanvas() {
   const centerX = canvas.width / 2 - 192 / 4 / 2;
@@ -198,13 +200,17 @@ function showUserInterface() {
 
 // Основная анимационная функция.
 function animate() {
-  mapSound.play();
   const animationID = window.requestAnimationFrame(animate);
   hideUserInterface();
   background.draw();
   boundaries.forEach((Boundary) => Boundary.draw());
   battleZones.forEach((battleZone) => battleZone.draw());
   player.draw();
+  if (battle.initiated) {
+    battleSound.pause(); 
+    mapSound.play();
+    return;
+  }
 
   let moving = true;
   player.moving = false;
@@ -215,7 +221,6 @@ function animate() {
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
       for (let i = 0; i < battleZones.length; i++) {
           const battleZone = battleZones[i];
-
           if (rectangularCollision({
               rectangle1: player,
               rectangle2: battleZone,

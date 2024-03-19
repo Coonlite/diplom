@@ -227,7 +227,6 @@ function animate() {
           })) {
             battleSound.play();
             mapSound.pause();
-              console.log("activate battle ");
               window.cancelAnimationFrame(animationID);
               battle.initiated = true;
               animateBattle();
@@ -239,36 +238,115 @@ function animate() {
 
   const speed = 3; // Скорость перемещения
   const diagonalSpeed = Math.sqrt(0.5) * speed; // Диагональная скорость
-
+  let canMoveDiagonally = true;
   // Обработка движения по диагонали
   if (keys.w.pressed && keys.a.pressed) {
-    movable.forEach((movable) => {
-      movable.position.x += diagonalSpeed;
-    });
-    movable.forEach((movable) => {
-      movable.position.y += diagonalSpeed;
-    });
+    
+    // Проверка столкновения по диагонали
+    for (let i = 0; i < boundaries.length; i++) {
+      const Boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...Boundary,
+            position: {
+              x: Boundary.position.x + speed,
+              y: Boundary.position.y + speed,
+            },
+          },
+        })
+      ) {
+        canMoveDiagonally = false;
+        break;
+      }
+    }
+  
+    if (canMoveDiagonally) {
+      movable.forEach((movable) => {
+        movable.position.x += diagonalSpeed;
+        movable.position.y += diagonalSpeed;
+      });
+    }
   } else if (keys.w.pressed && keys.d.pressed) {
-    movable.forEach((movable) => {
-      movable.position.x -= diagonalSpeed;
-    });
-    movable.forEach((movable) => {
-      movable.position.y += diagonalSpeed;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const Boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...Boundary,
+            position: {
+              x: Boundary.position.x + speed,
+              y: Boundary.position.y + speed,
+            },
+          },
+        })
+      ) {
+        canMoveDiagonally = false;
+        break;
+      }
+    }
+  
+    if (canMoveDiagonally) {
+      movable.forEach((movable) => {
+        movable.position.x -= diagonalSpeed;
+        movable.position.y += diagonalSpeed;
+      });
+    }
   } else if (keys.s.pressed && keys.a.pressed) {
-    movable.forEach((movable) => {
-      movable.position.x += diagonalSpeed;
-    });
-    movable.forEach((movable) => {
-      movable.position.y -= diagonalSpeed;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const Boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...Boundary,
+            position: {
+              x: Boundary.position.x + speed,
+              y: Boundary.position.y - speed,
+            },
+          },
+        })
+      ) {
+        canMoveDiagonally = false;
+        break;
+      }
+    }
+  
+    if (canMoveDiagonally) {
+      movable.forEach((movable) => {
+        movable.position.x += diagonalSpeed;
+        movable.position.y -= diagonalSpeed;
+      });
+    }
   } else if (keys.s.pressed && keys.d.pressed) {
-    movable.forEach((movable) => {
-      movable.position.x -= diagonalSpeed;
-    });
-    movable.forEach((movable) => {
-      movable.position.y -= diagonalSpeed;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const Boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...Boundary,
+            position: {
+              x: Boundary.position.x - speed,
+              y: Boundary.position.y - speed,
+            },
+          },
+        })
+      ) {
+        canMoveDiagonally = false;
+        break;
+      }
+    }
+  
+    if (canMoveDiagonally) {
+      movable.forEach((movable) => {
+        movable.position.x -= diagonalSpeed;
+        movable.position.y -= diagonalSpeed;
+      });
+    }
+    
   } else {
     if (keys.w.pressed) {
       player.moving = true;
@@ -287,7 +365,6 @@ function animate() {
             },
           })
         ) {
-          console.log("colliding");
           moving = false;
           break;
         }
@@ -315,7 +392,6 @@ function animate() {
             },
           })
         ) {
-          console.log("colliding");
           moving = false;
           break;
         }
@@ -343,7 +419,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
@@ -370,7 +445,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
